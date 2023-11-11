@@ -4,6 +4,11 @@ from gpt4all import GPT4All
 import requests
 from pathlib import Path
 import torch
+from flask import Flask
+from flask_cors import CORS
+
+
+
 # get model from here https://gpt4all.io/index.html
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 device_str = str(device)
@@ -12,13 +17,17 @@ model = GPT4All(model_name='gpt4all-falcon-q4_0.gguf', allow_download=False, dev
 
 
 app = Flask(__name__)
-
+CORS(app)
 @app.route('/')
+def index():
+    return 'Hello World!'
+@app.route('/api/home')
 def hello():
-    response = model.generate("write something about webscraping websites")
-    return response
+    response = model.generate("welcome to the home page",max_tokens=50)
+    print({'welcome':response,'websites':['myBroadband']})
+    return jsonify({'websites':['myBroadband']})
 
-@app.route('/myBroadband')
+@app.route('/api/myBroadband')
 def getMyBroadband():
     json_artical_list = []
     request_data = requests.get("https://mybroadband.co.za/news/")
@@ -33,6 +42,7 @@ def getMyBroadband():
     print(articles[0])
     return jsonify(json_artical_list)
 @app.route('/myBroadband/<extra>')
+
 def getMyBroadbandExtra(extra):
     text = ""
     request_data = requests.get("https://mybroadband.co.za/news/5g/513349-rain-price-hikes-for-new-customers.html")
