@@ -24,11 +24,11 @@ function Home() {
   };
 
   return (
-    <div className=' bg-slate-600 w-screen h-screen'>
+    <div className=' bg-slate-600 w-screen h-max'>
       <h1 className='text-center text-white font-bold text-6xl'>Welcome to NewsToMe</h1>
       <h2 className='text-center text-white font-bold text-xl py-3'>List of available websites</h2>
-      <div>
-        <ul className='flex justify-center text-white font-bold text-xl'>
+      <div className='justify-center'>
+        <ul className='flex flex-col items-center justify-center text-white font-bold text-xl'>
           {data.map((item, index) => (
             <li className='' key={index} onClick={() => handleListItemClick(item.title)}>
               <div
@@ -37,15 +37,16 @@ function Home() {
                   borderRadius: '8px',
                   padding: '10px',
                   margin: '5px',
-                  width: '30em', // Adjust the width as needed
-                  height: '10em', // Adjust the height as needed
+                  width: '60em', // Adjust the width as needed
+                  height: '13em', // Adjust the height as needed
                 }}
               >
                 <h1 className='text-center'>{item.title}</h1>
                 <img
                   src={item.img}
                   alt=''
-                  style={{ borderRadius: '8px', marginTop: '5px', maxWidth: '100%', maxHeight: '100%' }}
+                  className='mx-auto'
+                  style={{ borderRadius: '8px', marginTop: '5px', maxWidth: '100%', maxHeight: '100%',borderRadius: '8px' }}
                 />
               </div>
             </li>

@@ -8,7 +8,6 @@ function ArticlesPage() {
     const [data, setData] = useState([{}]);
     const location = useLocation();
     const title = location.state && location.state.title;
-    const navigate = useNavigate();
 
     const handleListItemClick = (link) => {
         console.log(link);
@@ -20,8 +19,7 @@ function ArticlesPage() {
         fetch(`http://127.0.0.1:5000/api/${title}`).then((res) => res.json()).then((data) => setData(data));
 
     }, []);
-    return (
-        
+    return ( 
         <div className='justify-center flex bg-slate-600 w-screen h-max'>
             <ul className='justify-center text-white font-bold text-xl text-left'>
                 {data.map((item, index) => (
