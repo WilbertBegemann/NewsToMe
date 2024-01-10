@@ -1,11 +1,15 @@
 from flask import Flask, request, jsonify
 from bs4 import BeautifulSoup
-from gpt4all import GPT4All
 import requests
 from pathlib import Path
 import torch
-from flask import Flask
 from flask_cors import CORS
+
+baseApi = 'http://127.0.0.1:5000/api'
+
+def getWebsites():
+    return jsonify([{'title':'myBroadband','link':f'{baseApi}/myBroadband','img':'https://mybroadband.co.za/news/wp-content/themes/mybroadband-nightcrawler/img/logo.svg'}
+                    ,{'title':'BusinessTech','link':f'{baseApi}/businessTech','img':'https://businesstech.co.za/news/wp-content/themes/businesstech/img/logo.png'}])
 
 def getMyBroadband():
     """Get the latest news from myBroadband"""
@@ -14,7 +18,11 @@ def getMyBroadband():
     soup = BeautifulSoup(request_data.text, 'html.parser')
     articles=soup.find_all('article')
     for art in articles:
-        image = art.find('img')['src']
+        image = art.find('img')
+        if(image != None):
+            image = image['src']
+        else:
+            image = ""
         title = art.find('h2').text
         link = art.find('a')['href']
         json_artical_list.append({'image':image, 'title':title, 'link':link})
@@ -35,6 +43,24 @@ def getMyBroadbandExtra(extra):
         written = model.generate("summarize: "+paragraphs[i].text,max_tokens=50)
         text = text+'\n Paragraph '+str(i)+'\n'+ written
         print("\nParagraph "+str(i)+"\n"+written)
-    
     print(text)
     return text
+
+def getBusinessTech():
+        json_artical_list = []
+        request_data = requests.get("https://businesstech.co.za/news/")
+        soup = BeautifulSoup(request_data.text, 'html.parser')
+        articles=soup.find_all('article')
+        for art in articles:
+            image = art.find('img')
+            if(image != None):
+                image = image['src']
+            else:
+                image = ""
+            title = art.find('h3').text.strip()
+            link = art.find('a')['href']
+            print(link)
+            json_artical_list.append({'image':image, 'title':title, 'link':link})
+        #print(len(articles))
+        #print(articles[0])
+        return jsonify(json_artical_list)
