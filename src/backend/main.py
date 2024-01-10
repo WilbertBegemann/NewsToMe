@@ -25,7 +25,7 @@ def index():
 def getWebsites():
     return web.getWebsites()
 
-@app.route('/api/getAll')
+@app.route('/api/All')
 def getAll():
     articleList = []
     articleList.append(web.getMyBroadband())

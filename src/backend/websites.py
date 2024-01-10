@@ -8,7 +8,7 @@ from flask_cors import CORS
 baseApi = 'http://127.0.0.1:5000/api'
 
 def getWebsites():
-    return jsonify([{'title':'myBroadband','link':f'{baseApi}/myBroadband','img':'https://mybroadband.co.za/news/wp-content/themes/mybroadband-nightcrawler/img/logo.svg'}
+    return jsonify([{'title':'All','link':f'{baseApi}/All','img':'https://upload.wikimedia.org/wikipedia/commons/d/d4/ALL_logo.svg'},{'title':'myBroadband','link':f'{baseApi}/myBroadband','img':'https://mybroadband.co.za/news/wp-content/themes/mybroadband-nightcrawler/img/logo.svg'}
                     ,{'title':'BusinessTech','link':f'{baseApi}/businessTech','img':'https://businesstech.co.za/news/wp-content/themes/businesstech/img/logo.png'}])
 
 def getMyBroadband():
