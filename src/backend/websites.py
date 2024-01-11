@@ -9,7 +9,8 @@ baseApi = 'http://127.0.0.1:5000/api'
 
 def getWebsites():
     return jsonify([{'title':'All','link':f'{baseApi}/All','img':'https://upload.wikimedia.org/wikipedia/commons/d/d4/ALL_logo.svg'},{'title':'myBroadband','link':f'{baseApi}/myBroadband','img':'https://mybroadband.co.za/news/wp-content/themes/mybroadband-nightcrawler/img/logo.svg'}
-                    ,{'title':'BusinessTech','link':f'{baseApi}/businessTech','img':'https://businesstech.co.za/news/wp-content/themes/businesstech/img/logo.png'}])
+                    ,{'title':'BusinessTech','link':f'{baseApi}/businessTech','img':'https://businesstech.co.za/news/wp-content/themes/businesstech/img/logo.png'}
+                    ,{'title':'TopAuto','link':f'{baseApi}/TopAuto','img':'https://topauto.co.za/wp-content/themes/topauto/assets/img/logo.png'}])
 
 def getMyBroadband():
     """Get the latest news from myBroadband"""
@@ -26,9 +27,9 @@ def getMyBroadband():
         title = art.find('h2').text
         link = art.find('a')['href']
         json_artical_list.append({'image':image, 'title':title, 'link':link})
-    print(len(articles))
-    print(articles[0])
-    return jsonify(json_artical_list)
+    #print(len(articles))
+    #print(articles[0])
+    return json_artical_list
 
 def getMyBroadbandExtra(extra):
     """Get info from myBroadband article"""
@@ -59,8 +60,25 @@ def getBusinessTech():
                 image = ""
             title = art.find('h3').text.strip()
             link = art.find('a')['href']
-            print(link)
             json_artical_list.append({'image':image, 'title':title, 'link':link})
         #print(len(articles))
         #print(articles[0])
-        return jsonify(json_artical_list)
+        return json_artical_list
+
+def getTopAuto():
+    json_artical_list = []
+    request_data = requests.get("https://www.iol.co.za/")
+    soup = BeautifulSoup(request_data.text, 'html.parser')
+    articles=soup.find_all('article')
+    #for art in articles:
+    #    image = art.find('img')
+    #    if(image != None):
+    #        image = image['src']
+    #    else:
+    #        image = ""
+    #    title = art.find('h3').text.strip()
+    #    link = art.find('a')['href']
+    #    json_artical_list.append({'image':image, 'title':title, 'link':link})
+    print(len(articles))
+    #print(articles[0])
+    return json_artical_list

@@ -7,6 +7,7 @@ import torch
 from flask import Flask
 from flask_cors import CORS
 import websites as web
+import random
 
 
 # get model from here https://gpt4all.io/index.html
@@ -25,12 +26,23 @@ def index():
 def getWebsites():
     return web.getWebsites()
 
+
+def randomizeList(list):
+    """Randomize the list"""
+    random.shuffle(list)
+    return list
+
+def listAdd(list1,list2):
+    """Add list2 to list1"""
+    for i in list2:
+        list1.append(i)
+    return list1
+
 @app.route('/api/All')
 def getAll():
     articleList = []
-    articleList.append(web.getMyBroadband())
-    articleList.append(web.getBusinessTech())
-    return articleList
+    listAdd(listAdd(articleList,web.getBusinessTech()),web.getMyBroadband())
+    return jsonify(randomizeList(articleList))
 
 
 ##########################################
@@ -40,12 +52,12 @@ def getAll():
 @app.route('/api/myBroadband')
 def getMyBroadband():
     """Get the latest news from myBroadband"""
-    return web.getMyBroadband()
+    return jsonify(web.getMyBroadband())
 
 @app.route('/myBroadband/<extra>')
 def getMyBroadbandExtra(extra):
     """Get info from myBroadband article"""
-    return web.getMyBroadbandExtra(extra)
+    return  jsonify(web.getMyBroadbandExtra(extra))
 
 ##########################################
 #               BusinessTech             #  
@@ -54,7 +66,16 @@ def getMyBroadbandExtra(extra):
 @app.route('/api/BusinessTech')
 def getBusinessTech():
     """Get the latest news from BusinessTech"""
-    return web.getBusinessTech()
+    return jsonify(web.getBusinessTech())
+
+##########################################
+#                 TopAuto                #  
+##########################################
+
+@app.route('/api/TopAuto')
+def getTopAuto():
+    """Get the latest news from IOL"""
+    return jsonify(web.getTopAuto())
 
 if __name__ == '__main__':
     app.run(debug=True)
