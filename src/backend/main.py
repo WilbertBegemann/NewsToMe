@@ -41,7 +41,7 @@ def listAdd(list1,list2):
 @app.route('/api/All')
 def getAll():
     articleList = []
-    listAdd(listAdd(articleList,web.getBusinessTech()),web.getMyBroadband())
+    listAdd(listAdd(listAdd(articleList,web.getBusinessTech()),web.getMyBroadband()),web.getNews24())
     return jsonify(randomizeList(articleList))
 
 
@@ -72,10 +72,10 @@ def getBusinessTech():
 #                 TopAuto                #  
 ##########################################
 
-@app.route('/api/TopAuto')
-def getTopAuto():
-    """Get the latest news from IOL"""
-    return jsonify(web.getTopAuto())
+@app.route('/api/news24')
+def getnews24():
+    """Get the latest news from news24"""
+    return jsonify(web.getNews24())
 
 if __name__ == '__main__':
     app.run(debug=True)
